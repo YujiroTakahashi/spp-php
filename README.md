@@ -6,12 +6,12 @@ Spp-php is a PHP bindings for SentencePieceProcessor.
 
 ## Requirements
 
-pkg-config
-protobuf-compiler
-libprotobuf10
-libprotobuf-dev
-libgoogle-perftools-dev
-libsentencepiece
+pkg-config  
+protobuf-compiler  
+libprotobuf10  
+libprotobuf-dev  
+libgoogle-perftools-dev  
+libsentencepiece  
 
 ```
 $ git clone https://github.com/google/sentencepiece.git
@@ -51,9 +51,9 @@ Jumanpp {
 
 ## Table of Contents
 
-[Jumanpp::__construct](#__construct)
-[Jumanpp::load](#load)
-[Jumanpp::encode](#encode)
+[Jumanpp::__construct](#__construct)  
+[Jumanpp::load](#load)  
+[Jumanpp::encode](#encode)  
 
 -----
 
