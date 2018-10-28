@@ -1,4 +1,4 @@
-# Jumanpp-php
+# Spp-php
 
 Spp-php is a PHP bindings for SentencePieceProcessor.
 
