@@ -42,6 +42,7 @@ SPP_API void SppFree(SppHandle handle);
 SPP_API void SppStrFree(SPStr str);
 SPP_API int SppLoad(SppHandle handle, const char* path);
 SPP_API SPStr SppEncode(SppHandle handle, const char* word);
+SPP_API SPStr SppWakati(SppHandle handle, const char* word);
 
 #ifdef __cplusplus
 }

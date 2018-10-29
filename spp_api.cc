@@ -101,3 +101,38 @@ SPStr SppEncode(SppHandle handle, const char* word)
 
     return retval;
 }
+
+/**
+ * encode
+ *
+ * @access public
+ * @param  SppHandle handle
+ * @param  const char* word
+ * @return SPStr
+ */
+SPStr SppWakati(SppHandle handle, const char* word)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    std::string input(word);
+
+    std::vector<std::string> pieces;
+    spp->Encode(input, &pieces);
+
+    std::size_t idx = 0;
+    std::string piece(pieces[idx].substr(3) + ' '); // (U+2581) trim
+    std::size_t size = pieces.size();
+
+    for (idx = 1; idx < size-1; idx++) {
+        piece = piece + pieces[idx] + ' ';
+    }
+    piece = piece + pieces[idx];
+
+    SPStr retval = new struct _SPStr;
+
+    retval->len = piece.length();
+    retval->buff = new char[retval->len +1];
+
+    strcpy(retval->buff, piece.c_str());
+
+    return retval;
+}

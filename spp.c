@@ -34,16 +34,16 @@ zend_class_entry *php_spp_sc_entry;
  */
 PHP_METHOD(spp, __construct)
 {
-	php_spp_object *jp_obj;
+	php_spp_object *sp_obj;
 	zval *object = getThis();
 
-	jp_obj = Z_SPP_P(object);
+	sp_obj = Z_SPP_P(object);
 
 	if (zend_parse_parameters_none() == FAILURE) {
 		return;
 	}
 
-	jp_obj->spp = SppCreate();
+	sp_obj->spp = SppCreate();
 }
 /* }}} */
 
@@ -51,18 +51,18 @@ PHP_METHOD(spp, __construct)
  */
 PHP_METHOD(spp, load)
 {
-	php_spp_object *jp_obj;
+	php_spp_object *sp_obj;
 	zval *object = getThis();
 	char *filename;
 	size_t filename_len;
 	zend_long res;
 
-	jp_obj = Z_SPP_P(object);
+	sp_obj = Z_SPP_P(object);
 
 	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s", &filename, &filename_len)) {
 		return;
 	}
-	res = SppLoad(jp_obj->spp, filename);
+	res = SppLoad(sp_obj->spp, filename);
 
 	RETURN_LONG(res);
 }
@@ -72,24 +72,45 @@ PHP_METHOD(spp, load)
  */
 PHP_METHOD(spp, encode)
 {
-	php_spp_object *jp_obj;
+	php_spp_object *sp_obj;
 	zval *object = getThis();
 	char *word;
 	size_t word_len;
 	SPStr str;
 
-	jp_obj = Z_SPP_P(object);
+	sp_obj = Z_SPP_P(object);
 
 	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s", &word, &word_len)) {
 		return;
 	}
-	str = SppEncode(jp_obj->spp, (const char*)word);
+	str = SppEncode(sp_obj->spp, (const char*)word);
 
+	array_init(return_value);
 	php_json_decode(return_value, str->buff, str->len, 1, PHP_JSON_PARSER_DEFAULT_DEPTH);
 	SppStrFree(str);
 }
 /* }}} */
 
+/* {{{ proto mixed spp::getWordVectors(String word)
+ */
+PHP_METHOD(spp, wakati)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	char *word;
+	size_t word_len;
+	SPStr str;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s", &word, &word_len)) {
+		return;
+	}
+	str = SppWakati(sp_obj->spp, (const char*)word);
+	ZVAL_STRINGL(return_value, str->buff, str->len);
+	SppStrFree(str);
+}
+/* }}} */
 
 /* {{{ arginfo */
 ZEND_BEGIN_ARG_INFO(arginfo_spp_void, 0)
@@ -107,9 +128,10 @@ ZEND_END_ARG_INFO()
 
 /* {{{ php_sspp_class_methods */
 static zend_function_entry php_spp_class_methods[] = {
-	PHP_ME(spp, __construct,	arginfo_spp_void,	ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(spp, load, 			arginfo_spp_load, 	ZEND_ACC_PUBLIC)
-	PHP_ME(spp, encode, 		arginfo_spp_encode, ZEND_ACC_PUBLIC)
+	PHP_ME(spp, __construct, arginfo_spp_void,   ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(spp, load,        arginfo_spp_load,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, encode,      arginfo_spp_encode, ZEND_ACC_PUBLIC)
+	PHP_ME(spp, wakati,      arginfo_spp_encode, ZEND_ACC_PUBLIC)
 
 	PHP_FE_END
 };
