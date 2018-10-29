@@ -1,10 +1,7 @@
-#include "jpp.h"
 #include "spp_api.h"
 
-using namespace spp;
-
 /**
- * get Juman++ version
+ * get SentencePieceProcessor version
  *
  * @access public
  * @return int
@@ -27,7 +24,7 @@ SppHandle SppCreate()
 }
 
 /**
- * free a JumanPP handle
+ * free a SentencePieceProcessor handle
  *
  * @access public
  * @param  SppHandle handle
@@ -45,7 +42,7 @@ void SppFree(SppHandle handle)
  * @param  SppStr str
  * @return void
  */
-void SppStrFree(JPStr str)
+void SppStrFree(SPStr str)
 {
     if (nullptr != str->buff) {
         delete[] str->buff;
@@ -84,9 +81,9 @@ int SppLoad(SppHandle handle, const char* path)
  * @access public
  * @param  SppHandle handle
  * @param  const char* word
- * @return JPStr
+ * @return SPStr
  */
-JPStr SppEncode(SppHandle handle, const char* word)
+SPStr SppEncode(SppHandle handle, const char* word)
 {
     sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
     std::string input(word);

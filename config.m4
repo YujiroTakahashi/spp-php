@@ -38,7 +38,7 @@ if test "$PHP_SPP" != "no"; then
   PHP_SUBST(SPP_SHARED_LIBADD)
 
   PHP_ADD_LIBRARY(stdc++, 1, SPP_SHARED_LIBADD)
-  PHP_ADD_LIBRARY(spp, 1, SPP_SHARED_LIBADD)
+  PHP_ADD_LIBRARY(sentencepiece, 1, SPP_SHARED_LIBADD)
   CFLAGS="-O3 -funroll-loops"
   CXXFLAGS="-pthread -std=c++14 -O3 -funroll-loops"
 

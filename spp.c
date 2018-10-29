@@ -76,7 +76,7 @@ PHP_METHOD(spp, encode)
 	zval *object = getThis();
 	char *word;
 	size_t word_len;
-	JPStr str;
+	SPStr str;
 
 	jp_obj = Z_SPP_P(object);
 
@@ -157,8 +157,8 @@ PHP_MINIT_FUNCTION(spp)
 
 	memcpy(&spp_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-	/* Register Jumanpp Class */
-	INIT_CLASS_ENTRY(ce, "Jumanpp", php_spp_class_methods);
+	/* Register Spp Class */
+	INIT_CLASS_ENTRY(ce, "Spp", php_spp_class_methods);
 	ce.create_object = php_spp_object_new;
 	spp_object_handlers.offset = XtOffsetOf(php_spp_object, zo);
 	spp_object_handlers.clone_obj = NULL;
@@ -186,9 +186,8 @@ PHP_MSHUTDOWN_FUNCTION(spp)
 PHP_MINFO_FUNCTION(spp)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "Juman++ support", "enabled");
-	php_info_print_table_row(2, "Juman++ module version", PHP_SPP_VERSION);
-//	php_info_print_table_row(2, "Juman++ Library", SppVersion());
+	php_info_print_table_header(2, "SentencePieceProcessor support", "enabled");
+	php_info_print_table_row(2, "SentencePieceProcessor module version", PHP_SPP_VERSION);
 	php_info_print_table_end();
 
 	DISPLAY_INI_ENTRIES();
