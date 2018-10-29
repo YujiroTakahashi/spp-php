@@ -46,6 +46,7 @@ Spp {
     public __construct ( void )
     public int load ( string filename )
     public array encode ( string word )
+    public string wakati ( string word )
 }
 ```
 
@@ -54,6 +55,7 @@ Spp {
 [Spp::__construct](#__construct)  
 [Spp::load](#load)  
 [Spp::encode](#encode)  
+[Spp::wakati](#wakati)  
 
 -----
 
@@ -108,4 +110,19 @@ Array
     [15] => 寺
     [16] => 。
 )
+```
+
+-----
+
+### <a name="wakati">int Spp::wakati()
+
+get the wakati.
+
+```php
+$encoded = $spp->wakati('本山は、足利義満により建立された京都の相国寺。');
+print_r($encoded);
+```
+
+```php
+"本 山 は 、 足利 義 満 により 建 立 された 京都 の 相 国 寺 。"
 ```
