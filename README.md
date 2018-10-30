@@ -47,6 +47,14 @@ Spp {
     public int load ( string filename )
     public array encode ( string word )
     public string wakati ( string word )
+    public string decode ( array ids )
+	public sampleEncode ( string word [, int size, float alpha] )
+	public getPieceSize ()
+	public pieceToId ( string word )
+	public idToPiece ( int id )
+	public isUnknown ( int id )
+	public isControl ( int id )
+	public setEncodeExtraOptions ( string option )
 }
 ```
 
@@ -56,7 +64,14 @@ Spp {
 [Spp::load](#load)  
 [Spp::encode](#encode)  
 [Spp::wakati](#wakati)  
-
+[Spp::decode](#decode)  
+[Spp::sampleEncode](#sampleEncode)  
+[Spp::getPieceSize](#getPieceSize)  
+[Spp::pieceToId](#pieceToId)  
+[Spp::idToPiece](#idToPiece)  
+[Spp::isUnknown](#isUnknown)  
+[Spp::isControl](#isControl)  
+[Spp::setEncodeExtraOptions](#setEncodeExtraOptions)  
 -----
 
 ### <a name="__construct">Spp::__construct()
@@ -262,3 +277,37 @@ print_r($encoded);
 ```php
 "本 山 は 、 足利 義 満 により 建 立 された 京都 の 相 国 寺 。"
 ```
+
+-----
+
+### <a name="decode">int Spp::decode()
+
+-----
+
+### <a name="sampleEncode">int Spp::sampleEncode()
+
+-----
+
+### <a name="getPieceSize">int Spp::getPieceSize()
+
+-----
+
+### <a name="pieceToId">int Spp::pieceToId()
+
+-----
+
+### <a name="idToPiece">int Spp::idToPiece()
+
+-----
+
+### <a name="isUnknown">int Spp::isUnknown()
+
+-----
+
+### <a name="isControl">int Spp::isControl()
+
+-----
+
+### <a name="setEncodeExtraOptions">int Spp::setEncodeExtraOptions()
+
+
