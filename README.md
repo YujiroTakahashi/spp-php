@@ -320,24 +320,67 @@ print_r($decoded);
 
 ### <a name="getPieceSize">int Spp::getPieceSize()
 
+```php
+echo $spp->getPieceSize();
+```
+
+```php
+8000
+```
+
 -----
 
 ### <a name="pieceToId">int Spp::pieceToId()
+
+```php
+echo $spp->pieceToId("森");
+```
+
+```php
+4735
+```
 
 -----
 
 ### <a name="idToPiece">int Spp::idToPiece()
 
+```php
+echo $spp->idToPiece(4042);
+```
+
+```php
+海
+```
+
 -----
 
 ### <a name="isUnknown">int Spp::isUnknown()
+
+```php
+$spp->isUnknown(582);
+```
+
+```php
+false
+```
 
 -----
 
 ### <a name="isControl">int Spp::isControl()
 
+```php
+$spp->isControl(7000);
+```
+
+```php
+false
+```
+
 -----
 
 ### <a name="setEncodeExtraOptions">int Spp::setEncodeExtraOptions()
 
+```php
+$spp->setEncodeExtraOptions("bos:eos");
+```
 
