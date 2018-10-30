@@ -284,6 +284,34 @@ print_r($encoded);
 
 ### <a name="decode">int Spp::decode()
 
+```php
+$ids = [
+    582,
+    4001,
+    3784,
+    3775,
+    2962,
+    4221,
+    4575,
+    89,
+    4237,
+    3957,
+    24,
+    1517,
+    3774,
+    4182,
+    3877,
+    4443,
+    3780
+];
+$decoded = $spp->decode($ids);
+print_r($decoded);
+```
+
+```php
+本山は、足利義満により建立された京都の相国寺。
+```
+
 -----
 
 ### <a name="sampleEncode">int Spp::sampleEncode()
