@@ -92,23 +92,159 @@ print_r($encoded);
 ```php
 Array
 (
-    [0] => ▁本
-    [1] => 山
-    [2] => は
-    [3] => 、
-    [4] => 足利
-    [5] => 義
-    [6] => 満
-    [7] => により
-    [8] => 建
-    [9] => 立
-    [10] => された
-    [11] => 京都
-    [12] => の
-    [13] => 相
-    [14] => 国
-    [15] => 寺
-    [16] => 。
+    [0] => Array
+        (
+            [begin] => 0
+            [end] => 3
+            [id] => 582
+            [piece] => ▁本
+            [surface] => 本
+        )
+
+    [1] => Array
+        (
+            [begin] => 3
+            [end] => 6
+            [id] => 4001
+            [piece] => 山
+            [surface] => 山
+        )
+
+    [2] => Array
+        (
+            [begin] => 6
+            [end] => 9
+            [id] => 3784
+            [piece] => は
+            [surface] => は
+        )
+
+    [3] => Array
+        (
+            [begin] => 9
+            [end] => 12
+            [id] => 3775
+            [piece] => 、
+            [surface] => 、
+        )
+
+    [4] => Array
+        (
+            [begin] => 12
+            [end] => 18
+            [id] => 2962
+            [piece] => 足利
+            [surface] => 足利
+        )
+
+    [5] => Array
+        (
+            [begin] => 18
+            [end] => 21
+            [id] => 4221
+            [piece] => 義
+            [surface] => 義
+        )
+
+    [6] => Array
+        (
+            [begin] => 21
+            [end] => 24
+            [id] => 4575
+            [piece] => 満
+            [surface] => 満
+        )
+
+    [7] => Array
+        (
+            [begin] => 24
+            [end] => 33
+            [id] => 89
+            [piece] => により
+            [surface] => により
+        )
+
+    [8] => Array
+        (
+            [begin] => 33
+            [end] => 36
+            [id] => 4237
+            [piece] => 建
+            [surface] => 建
+        )
+
+    [9] => Array
+        (
+            [begin] => 36
+            [end] => 39
+            [id] => 3957
+            [piece] => 立
+            [surface] => 立
+        )
+
+    [10] => Array
+        (
+            [begin] => 39
+            [end] => 48
+            [id] => 24
+            [piece] => された
+            [surface] => された
+        )
+
+    [11] => Array
+        (
+            [begin] => 48
+            [end] => 54
+            [id] => 1517
+            [piece] => 京都
+            [surface] => 京都
+        )
+
+    [12] => Array
+        (
+            [begin] => 54
+            [end] => 57
+            [id] => 3774
+            [piece] => の
+            [surface] => の
+        )
+
+    [13] => Array
+        (
+            [begin] => 57
+            [end] => 60
+            [id] => 4182
+            [piece] => 相
+            [surface] => 相
+        )
+
+    [14] => Array
+        (
+            [begin] => 60
+            [end] => 63
+            [id] => 3877
+            [piece] => 国
+            [surface] => 国
+        )
+
+    [15] => Array
+        (
+            [begin] => 63
+            [end] => 66
+            [id] => 4443
+            [piece] => 寺
+            [surface] => 寺
+        )
+
+    [16] => Array
+        (
+            [begin] => 66
+            [end] => 69
+            [id] => 3780
+            [piece] => 。
+            [surface] => 。
+        )
+
 )
 ```
 
