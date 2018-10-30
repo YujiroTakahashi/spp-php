@@ -120,23 +120,22 @@ PHP_METHOD(spp, decode)
 	php_spp_object *sp_obj;
 	zval *object = getThis();
 	zval *array;
-	smart_str *buf;
+	smart_str buff = {0};
 	SPStr str;
 
 	sp_obj = Z_SPP_P(object);
 
-	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "z", &array)) {
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "a", &array)) {
 		return;
 	}
-	php_json_encode(buf, array, 0);
-
-	str = SppDecode(sp_obj->spp, (const char*)ZSTR_VAL(buf->s));
+	php_json_encode(&buff, array, 0);
+	str = SppDecode(sp_obj->spp, (const char*)ZSTR_VAL(buff.s), ZSTR_LEN(buff.s));
 	ZVAL_STRINGL(return_value, str->buff, str->len);
 	SppStrFree(str);
 }
 /* }}} */
 
-/* {{{ proto mixed spp::sampleEncode(String word)
+/* {{{ proto mixed spp::sampleEncode(String word, int size float alpha)
  */
 PHP_METHOD(spp, sampleEncode)
 {
@@ -293,6 +292,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_word, 0, 0, 1)
 	ZEND_ARG_INFO(0, word)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_ids, 0, 0, 1)
+	ZEND_ARG_INFO(0, ids)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_id, 0, 0, 1)
 	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
@@ -312,6 +315,7 @@ static zend_function_entry php_spp_class_methods[] = {
 	PHP_ME(spp, load,         arginfo_spp_word,   ZEND_ACC_PUBLIC)
 	PHP_ME(spp, encode,       arginfo_spp_word,   ZEND_ACC_PUBLIC)
 	PHP_ME(spp, wakati,       arginfo_spp_word,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, decode,       arginfo_spp_ids,    ZEND_ACC_PUBLIC)
 	PHP_ME(spp, sampleEncode, arginfo_spp_sample, ZEND_ACC_PUBLIC)
 	PHP_ME(spp, getPieceSize, arginfo_spp_void,   ZEND_ACC_PUBLIC)
 	PHP_ME(spp, pieceToId,    arginfo_spp_id,     ZEND_ACC_PUBLIC)

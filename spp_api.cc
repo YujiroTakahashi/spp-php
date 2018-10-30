@@ -156,10 +156,12 @@ SPStr SppWakati(SppHandle handle, const char* word)
  * @param  const char* ids
  * @return SPStr
  */
-SPStr SppDecode(SppHandle handle, const char* json)
+SPStr SppDecode(SppHandle handle, const char* json, size_t len)
 {
     sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
-    nlohmann::json parsed = nlohmann::json::parse(json);
+    std::string strjson(json, len);
+    nlohmann::json parsed = nlohmann::json::parse(strjson);
+
     std::vector<int> ids;
     for (auto& id : parsed) {
         ids.push_back(id);
