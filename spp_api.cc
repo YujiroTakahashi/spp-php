@@ -123,26 +123,149 @@ SPStr SppEncode(SppHandle handle, const char* word)
 SPStr SppWakati(SppHandle handle, const char* word)
 {
     sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    sentencepiece::SentencePieceText spt;
     std::string input(word);
 
-    std::vector<std::string> pieces;
-    spp->Encode(input, &pieces);
+    spp->Encode(input, &spt);
 
-    std::size_t idx = 0;
-    std::string piece(pieces[idx].substr(3) + ' '); // (U+2581) trim
-    std::size_t size = pieces.size();
+    int idx = 0;
+    std::string surface = spt.pieces(idx).surface();
+    std::string wakati(surface + ' ');
+    const int size = spt.pieces_size();
 
     for (idx = 1; idx < size-1; idx++) {
-        piece = piece + pieces[idx] + ' ';
+        surface = spt.pieces(idx).surface();
+        wakati.append(surface + ' ');
     }
-    piece = piece + pieces[idx];
+    surface = spt.pieces(idx).surface();
+    wakati.append(surface + ' ');
 
     SPStr retval = new struct _SPStr;
-
-    retval->len = piece.length();
+    retval->len = wakati.length();
     retval->buff = new char[retval->len +1];
+    strcpy(retval->buff, wakati.c_str());
 
+    return retval;
+}
+
+/**
+ * decode
+ *
+ * @access public
+ * @param  SppHandle handle
+ * @param  const char* ids
+ * @return SPStr
+ */
+SPStr SppDecode(SppHandle handle, const char* json)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    nlohmann::json parsed = nlohmann::json::parse(json);
+    std::vector<int> ids;
+    for (auto& id : parsed) {
+        ids.push_back(id);
+    }
+
+    std::string text;
+    spp->Decode(ids, &text);
+
+    SPStr retval = new struct _SPStr;
+    retval->len = text.length();
+    retval->buff = new char[retval->len +1];
+    strcpy(retval->buff, text.c_str());
+
+    return retval;
+}
+
+/**
+ * SampleEncode
+ *
+ * @access public
+ * @param  SppHandle handle
+ * @param  const char* word
+ * @param  int size
+ * @param  float alpha
+ * @return SPStr
+ */
+SPStr SppSampleEncode(SppHandle handle, const char* word, int size, float alpha)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    sentencepiece::SentencePieceText spt;
+    std::string input(word);
+
+    spp->SampleEncode(input, size, alpha, &spt);
+
+    int row = 0;
+    nlohmann::json retj;
+    for (const auto &piece : spt.pieces()) {
+        retj[row]["begin"]   = piece.begin();
+        retj[row]["end"]     = piece.end();
+        retj[row]["piece"]   = piece.piece();
+        retj[row]["surface"] = piece.surface();
+        retj[row]["id"]      = piece.id();
+        row++;
+    }
+
+    std::string retstr = retj.dump();
+    SPStr retval = new struct _SPStr;
+    retval->len = retstr.length();
+    retval->buff = new char[retval->len + 1];
+    strcpy(retval->buff, retstr.c_str());
+
+    return retval;
+}
+
+
+SPP_API int SppGetPieceSize(SppHandle handle)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    return spp->GetPieceSize();
+}
+
+SPP_API int SppPieceToId(SppHandle handle, const char* word)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    std::string piece(word);
+    return spp->PieceToId(piece);
+}
+
+SPP_API SPStr SppIdToPiece(SppHandle handle, int id)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    std::string piece = spp->IdToPiece(id);
+
+    SPStr retval = new struct _SPStr;
+    retval->len = piece.length();
+    retval->buff = new char[retval->len + 1];
     strcpy(retval->buff, piece.c_str());
 
     return retval;
+}
+
+SPP_API int SppIsUnknown(SppHandle handle, int id)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    if (!spp->IsUnknown(id)) {
+        return SPP_FALSE;
+    }
+    return SPP_TRUE;
+}
+
+SPP_API int SppIsControl(SppHandle handle, int id)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    if (!spp->IsControl(id)) {
+        return SPP_FALSE;
+    }
+    return SPP_TRUE;
+}
+
+SPP_API int SppSetEncodeExtraOptions(SppHandle handle, const char* option)
+{
+    sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    std::string opt(option);
+    auto stat = spp->SetDecodeExtraOptions(opt);
+    if (!stat.ok()) {
+        return SPP_FALSE;
+    }
+    return SPP_TRUE;
 }

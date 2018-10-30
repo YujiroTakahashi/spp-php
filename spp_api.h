@@ -43,6 +43,14 @@ SPP_API void SppStrFree(SPStr str);
 SPP_API int SppLoad(SppHandle handle, const char* path);
 SPP_API SPStr SppEncode(SppHandle handle, const char* word);
 SPP_API SPStr SppWakati(SppHandle handle, const char* word);
+SPP_API SPStr SppDecode(SppHandle handle, const char* json);
+SPP_API SPStr SppSampleEncode(SppHandle handle, const char* word, int size, float alpha);
+SPP_API int SppGetPieceSize(SppHandle handle);
+SPP_API int SppPieceToId(SppHandle handle, const char* word);
+SPP_API SPStr SppIdToPiece(SppHandle handle, int id);
+SPP_API int SppIsUnknown(SppHandle handle, int id);
+SPP_API int SppIsControl(SppHandle handle, int id);
+SPP_API int SppSetEncodeExtraOptions(SppHandle handle, const char* option);
 
 #ifdef __cplusplus
 }

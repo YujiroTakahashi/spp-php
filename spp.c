@@ -68,7 +68,7 @@ PHP_METHOD(spp, load)
 }
 /* }}} */
 
-/* {{{ proto mixed spp::getWordVectors(String word)
+/* {{{ proto mixed spp::encode(String word)
  */
 PHP_METHOD(spp, encode)
 {
@@ -91,7 +91,7 @@ PHP_METHOD(spp, encode)
 }
 /* }}} */
 
-/* {{{ proto mixed spp::getWordVectors(String word)
+/* {{{ proto mixed spp::wakati(String word)
  */
 PHP_METHOD(spp, wakati)
 {
@@ -112,26 +112,213 @@ PHP_METHOD(spp, wakati)
 }
 /* }}} */
 
+
+/* {{{ proto mixed spp::decode(array ids)
+ */
+PHP_METHOD(spp, decode)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	zval *array;
+	smart_str *buf;
+	SPStr str;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "z", &array)) {
+		return;
+	}
+	php_json_encode(buf, array, 0);
+
+	str = SppDecode(sp_obj->spp, (const char*)ZSTR_VAL(buf->s));
+	ZVAL_STRINGL(return_value, str->buff, str->len);
+	SppStrFree(str);
+}
+/* }}} */
+
+/* {{{ proto mixed spp::sampleEncode(String word)
+ */
+PHP_METHOD(spp, sampleEncode)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	char *word;
+	size_t word_len;
+	zend_long size = -1;
+	double alpha = 0.2;
+	SPStr str;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s|ld", &word, &word_len, &size, &alpha)) {
+		return;
+	}
+	str = SppSampleEncode(sp_obj->spp, (const char*)word, size, (const float)alpha);
+	ZVAL_STRINGL(return_value, str->buff, str->len);
+	SppStrFree(str);
+}
+/* }}} */
+
+/* {{{ proto mixed spp::getPieceSize()
+ */
+PHP_METHOD(spp, getPieceSize)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	zend_long size;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (zend_parse_parameters_none() == FAILURE) {
+		return;
+	}
+	size = SppGetPieceSize(sp_obj->spp);
+	RETURN_LONG(size);
+}
+/* }}} */
+
+/* {{{ proto int spp::pieceToId(String word)
+ */
+PHP_METHOD(spp, pieceToId)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	char *word;
+	size_t word_len;
+	zend_long id;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s", &word, &word_len)) {
+		return;
+	}
+	id = SppPieceToId(sp_obj->spp, (const char*)word);
+	RETURN_LONG(id);
+}
+/* }}} */
+
+/* {{{ proto mixed spp::idToPiece(int id)
+ */
+PHP_METHOD(spp, idToPiece)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	zend_long id;
+	SPStr str;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &id)) {
+		return;
+	}
+	str = SppIdToPiece(sp_obj->spp, id);
+	ZVAL_STRINGL(return_value, str->buff, str->len);
+	SppStrFree(str);
+}
+/* }}} */
+
+/* {{{ proto bool spp::isUnknown(int id)
+ */
+PHP_METHOD(spp, isUnknown)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	zend_long id;
+	int res;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &id)) {
+		return;
+	}
+	res = SppIsUnknown(sp_obj->spp, id);
+	if (res == SPP_FALSE) {
+		RETURN_FALSE;
+	}
+	RETURN_TRUE;
+}
+/* }}} */
+
+/* {{{ proto bool spp::isControl(int id)
+ */
+PHP_METHOD(spp, isControl)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	zend_long id;
+	int res;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &id)) {
+		return;
+	}
+	res = SppIsControl(sp_obj->spp, id);
+	if (res == SPP_FALSE) {
+		RETURN_FALSE;
+	}
+	RETURN_TRUE;
+}
+/* }}} */
+
+/* {{{ proto bool spp::setEncodeExtraOptions(String option)
+ */
+PHP_METHOD(spp, setEncodeExtraOptions)
+{
+	php_spp_object *sp_obj;
+	zval *object = getThis();
+	char *opt;
+	size_t opt_len;
+	int res;
+
+	sp_obj = Z_SPP_P(object);
+
+	if (FAILURE == zend_parse_parameters_throw(ZEND_NUM_ARGS(), "s", &opt, &opt_len)) {
+		return;
+	}
+	res = SppSetEncodeExtraOptions(sp_obj->spp, (const char*)opt);
+	if (res == SPP_FALSE) {
+		RETURN_FALSE;
+	}
+	RETURN_TRUE;
+}
+/* }}} */
+
+
 /* {{{ arginfo */
 ZEND_BEGIN_ARG_INFO(arginfo_spp_void, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_load, 0, 0, 1)
-	ZEND_ARG_INFO(0, fileformat)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_encode, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_word, 0, 0, 1)
 	ZEND_ARG_INFO(0, word)
 ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_id, 0, 0, 1)
+	ZEND_ARG_INFO(0, id)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_spp_sample, 0, 0, 1)
+	ZEND_ARG_INFO(0, word)
+	ZEND_ARG_INFO(0, size)
+	ZEND_ARG_INFO(0, alpha)
+ZEND_END_ARG_INFO()
+
 /* }}} */
 
 
 /* {{{ php_sspp_class_methods */
 static zend_function_entry php_spp_class_methods[] = {
-	PHP_ME(spp, __construct, arginfo_spp_void,   ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(spp, load,        arginfo_spp_load,   ZEND_ACC_PUBLIC)
-	PHP_ME(spp, encode,      arginfo_spp_encode, ZEND_ACC_PUBLIC)
-	PHP_ME(spp, wakati,      arginfo_spp_encode, ZEND_ACC_PUBLIC)
+	PHP_ME(spp, __construct,  arginfo_spp_void,   ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(spp, load,         arginfo_spp_word,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, encode,       arginfo_spp_word,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, wakati,       arginfo_spp_word,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, sampleEncode, arginfo_spp_sample, ZEND_ACC_PUBLIC)
+	PHP_ME(spp, getPieceSize, arginfo_spp_void,   ZEND_ACC_PUBLIC)
+	PHP_ME(spp, pieceToId,    arginfo_spp_id,     ZEND_ACC_PUBLIC)
+	PHP_ME(spp, idToPiece,    arginfo_spp_id,     ZEND_ACC_PUBLIC)
+	PHP_ME(spp, isUnknown,    arginfo_spp_id,     ZEND_ACC_PUBLIC)
+	PHP_ME(spp, isControl,    arginfo_spp_id,     ZEND_ACC_PUBLIC)
+	PHP_ME(spp, setEncodeExtraOptions, arginfo_spp_word, ZEND_ACC_PUBLIC)
 
 	PHP_FE_END
 };
