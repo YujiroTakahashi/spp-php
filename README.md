@@ -357,6 +357,14 @@ echo $spp->idToPiece(4042);
 ### <a name="isUnknown">int Spp::isUnknown()
 
 ```php
+$spp->isUnknown(0);  // <unk>
+```
+
+```php
+true
+```
+
+```php
 $spp->isUnknown(582);
 ```
 
@@ -369,7 +377,7 @@ false
 ### <a name="isControl">int Spp::isControl()
 
 ```php
-$spp->isControl(7000);
+$spp->isControl(7000);  // <s>, </s>
 ```
 
 ```php
