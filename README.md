@@ -60,6 +60,7 @@ Spp {
 
 ## Table of Contents
 
+
 [Spp::__construct](#__construct)  
 [Spp::load](#load)  
 [Spp::encode](#encode)  
@@ -72,6 +73,7 @@ Spp {
 [Spp::isUnknown](#isUnknown)  
 [Spp::isControl](#isControl)  
 [Spp::setEncodeExtraOptions](#setEncodeExtraOptions)  
+
 -----
 
 ### <a name="__construct">Spp::__construct()
