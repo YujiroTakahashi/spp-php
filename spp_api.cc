@@ -1,4 +1,5 @@
 #include "spp_api.h"
+#include "sentencepiece.pb.h"
 
 /**
  * get SentencePieceProcessor version
@@ -86,14 +87,23 @@ int SppLoad(SppHandle handle, const char* path)
 SPStr SppEncode(SppHandle handle, const char* word)
 {
     sentencepiece::SentencePieceProcessor *spp = static_cast<sentencepiece::SentencePieceProcessor*>(handle);
+    sentencepiece::SentencePieceText spt;
     std::string input(word);
 
-    std::vector<std::string> pieces;
-    spp->Encode(input, &pieces);
+    spp->Encode(input, &spt);
 
-    nlohmann::json retj(pieces);
+    int row = 0;
+    nlohmann::json retj;
+    for (const auto &piece : spt.pieces()) {
+        retj[row]["begin"]   = piece.begin();
+        retj[row]["end"]     = piece.end();
+        retj[row]["piece"]   = piece.piece();
+        retj[row]["surface"] = piece.surface();
+        retj[row]["id"]      = piece.id();
+        row++;
+    }
+
     std::string retstr = retj.dump();
-
     SPStr retval = new struct _SPStr;
     retval->len = retstr.length();
     retval->buff = new char[retval->len + 1];
