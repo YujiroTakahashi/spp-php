@@ -48,13 +48,13 @@ Spp {
     public array encode ( string word )
     public string wakati ( string word )
     public string decode ( array ids )
-	public sampleEncode ( string word [, int size, float alpha] )
-	public getPieceSize ()
-	public pieceToId ( string word )
-	public idToPiece ( int id )
-	public isUnknown ( int id )
-	public isControl ( int id )
-	public setEncodeExtraOptions ( string option )
+    public sampleEncode ( string word [, int size, float alpha] )
+    public getPieceSize ()
+    public pieceToId ( string word )
+    public idToPiece ( int id )
+    public isUnknown ( int id )
+    public isControl ( int id )
+    public setEncodeExtraOptions ( string option )
 }
 ```
 
@@ -91,7 +91,8 @@ $spp = new Spp();
 load a model.
 
 ```php
-$model = 'result/model.bin';
+
+$model = 'model/wiki8k.model';
 $spp->load($model);
 ```
 
