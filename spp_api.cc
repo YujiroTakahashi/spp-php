@@ -13,6 +13,17 @@ int SppVersion()
 }
 
 /**
+ * get SentencePieceProcessor size
+ *
+ * @access public
+ * @return int
+ */
+int SppSize()
+{
+    return sizeof(sentencepiece::SentencePieceProcessor);
+}
+
+/**
  * create a Spp handle
  *
  * @access public

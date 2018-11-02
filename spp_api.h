@@ -37,6 +37,7 @@ typedef void *SppHandle;
 typedef struct _SPStr *SPStr;
 
 SPP_API int SppVersion();
+SPP_API int SppSize();
 SPP_API SppHandle SppCreate();
 SPP_API void SppFree(SppHandle handle);
 SPP_API void SppStrFree(SPStr str);

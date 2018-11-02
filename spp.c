@@ -350,7 +350,8 @@ static zend_object *php_spp_object_new(zend_class_entry *class_type) /* {{{ */
 	php_spp_object *intern;
 
 	/* Allocate memory for it */
-	intern = ecalloc(1, sizeof(php_spp_object) + zend_object_properties_size(class_type));
+	int sppsize = SppSize();
+	intern = ecalloc(1, sizeof(php_spp_object) + zend_object_properties_size(class_type) + sppsize);
 
 	zend_object_std_init(&intern->zo, class_type);
 	object_properties_init(&intern->zo, class_type);
