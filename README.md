@@ -283,7 +283,7 @@ print_r($encoded);
 
 -----
 
-### <a name="decode">int Spp::decode()
+### <a name="decode">string Spp::decode()
 
 ```php
 $ids = [
@@ -343,7 +343,7 @@ echo $spp->pieceToId("森");
 
 -----
 
-### <a name="idToPiece">int Spp::idToPiece()
+### <a name="idToPiece">string Spp::idToPiece()
 
 ```php
 echo $spp->idToPiece(4042);
@@ -355,7 +355,7 @@ echo $spp->idToPiece(4042);
 
 -----
 
-### <a name="isUnknown">int Spp::isUnknown()
+### <a name="isUnknown">bool Spp::isUnknown()
 
 ```php
 $spp->isUnknown(0);  // <unk>
@@ -375,7 +375,7 @@ false
 
 -----
 
-### <a name="isControl">int Spp::isControl()
+### <a name="isControl">bool Spp::isControl()
 
 ```php
 $spp->isControl(7000);  // <s>, </s>
@@ -387,7 +387,7 @@ false
 
 -----
 
-### <a name="setEncodeExtraOptions">int Spp::setEncodeExtraOptions()
+### <a name="setEncodeExtraOptions">bool Spp::setEncodeExtraOptions()
 
 ```php
 $spp->setEncodeExtraOptions("bos:eos");
