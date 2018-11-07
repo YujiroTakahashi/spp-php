@@ -62,17 +62,17 @@ Spp {
 
 
 [Spp::__construct](#__construct)  
-[Spp::load](#load)  
-[Spp::encode](#encode)  
-[Spp::wakati](#wakati)  
-[Spp::decode](#decode)  
-[Spp::sampleEncode](#sampleEncode)  
-[Spp::getPieceSize](#getPieceSize)  
-[Spp::pieceToId](#pieceToId)  
-[Spp::idToPiece](#idToPiece)  
-[Spp::isUnknown](#isUnknown)  
-[Spp::isControl](#isControl)  
-[Spp::setEncodeExtraOptions](#setEncodeExtraOptions)  
+[Spp::load](#int-spploadstring-filename)  
+[Spp::encode](#int-sppencode)  
+[Spp::wakati](#string-sppwakati)  
+[Spp::decode](#string-sppdecode)  
+[Spp::sampleEncode](#int-sppsampleencode)  
+[Spp::getPieceSize](#int-sppgetpiecesize)  
+[Spp::pieceToId](#int-spppiecetoid)  
+[Spp::idToPiece](#string-sppidtopiece)  
+[Spp::isUnknown](#bool-sppisunknown)  
+[Spp::isControl](#bool-sppiscontrol)  
+[Spp::setEncodeExtraOptions](#bool-sppsetencodeextraoptions)  
 
 -----
 
@@ -268,7 +268,7 @@ Array
 
 -----
 
-### <a name="wakati">int Spp::wakati()
+### <a name="wakati">string Spp::wakati()
 
 get the wakati.
 
